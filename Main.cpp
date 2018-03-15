@@ -133,6 +133,9 @@ int main()
 		count++;
 	}
 	cout << endl << "Simulation complete" << endl << endl;
+
+	/*average turnabout time= average time the jobs finish*/
+	/*average response time= average time the jobs start compared to when they were schedueled*/
 	cout << "Job AVG_turnabout AVG_response" << endl;
 	for (int i = 0; i < fifoAv.size(); i++)
 	{
@@ -178,6 +181,7 @@ int main()
 	system("pause");
 }
 
+/*FIFO (first in first out) runs the jobs by the earliest arrival time and won't change to a new job till the current one is finished*/
 std::vector<float> FIFO(std::vector<Job> jobs, int count)
 {
 	std::vector<int> arrival;
@@ -243,6 +247,7 @@ std::vector<float> FIFO(std::vector<Job> jobs, int count)
 }
 
 
+/*SJF (shortest job first) runs the jobs by the shortest duration and won't change to a new job till the current one is finished*/
 std::vector<float> SJF(std::vector<Job> jobs, int count)
 {
 	sort(jobs.begin(), jobs.end(), [](const Job& lhs, const Job& rhs)
@@ -314,10 +319,12 @@ std::vector<float> SJF(std::vector<Job> jobs, int count)
 	return average;
 }
 
-/* STCF(shortest time to completion works work when two jobs collide the one with the shortest time from that point until its completion takes priority*/
+/* STCF(shortest time to completion) works work when two jobs collide the one with the shortest time from that point until its completion takes priority*/
 /*The longer job's then pushed back on the schedule*/
 std::vector<Job> STCF(std::vector<Job> jobs, int count)
 {
+	/*I tried to make it work by dividing jobs in two depending on whether they would encounter a shorter job during their run or not and make a vector cotaining all the jobs and job segments*/
+	/*However the way I formated the code made me unable to find a way to get that to work*/
 	for (int i = 0;i < jobs.size();i++)
 	{
 		if (count == jobs[i].ArrivalTime)
@@ -357,7 +364,7 @@ std::vector<Job> STCF(std::vector<Job> jobs, int count)
 	return jobs;
 }
 
-
+/*Round robin allocates the job to equal time slices that run in a rotation*/
 std::vector<float> RR(std::vector<Job> jobs, int count, int timeSlice, int total)
 {
 
